@@ -3,43 +3,44 @@
 
     <xacro:include filename="inertial_macros.xacro"/>
 
-    <mateial name="Write">
-        <color rgba="0 0 0 0"/>
-    </mateial>
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
 
-    <mateial name="orange">
+    <material name="orange">
         <color rgba="1 0.3 0.1 1"/>
-    </mateial>
+    </material>
 
-    <mateial name="blue">
-        <color rgba="0.0 0.0 1.0 0.0"/>      
-    </mateial>
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
 
-    <mateial name="black">
+    <material name="black">
         <color rgba="0 0 0 1"/>
-    </mateial>
+    </material>
 
     <!-- BASE LINK -->
 
     <link name="base_link">
-    
+
     </link>
 
-    <!-- CHASSSIS LINK -->
+
+    <!-- CHASSIS LINK -->
 
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis"/>
-        <origin xyz="-0.1 0 0"/>    
+        <origin xyz="-0.1 0 0"/>
     </joint>
-    
+
     <link name="chassis">
         <visual>
             <origin xyz="0.15 0 0.075"/>
             <geometry>
                 <box size="0.3 0.3 0.15"/>
             </geometry>
-            <material name="White"/>
+            <material name="white"/>
         </visual>
         <collision>
             <origin xyz="0.15 0 0.075"/>
@@ -52,12 +53,16 @@
         </xacro:inertial_box>
     </link>
 
+    <gazebo reference="chassis">
+        <material>Gazebo/White</material>
+    </gazebo>
+    
     <!-- LEFT WHEEL LINK -->
 
     <joint name="left_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="left_wheel"/>
-        <origin xyz="0 0.175 0" rpy="-${pi/2} 0 0"/>
+        <origin xyz="0 0.175 0" rpy="-${pi/2} 0 0" />
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -78,12 +83,16 @@
         </xacro:inertial_cylinder>
     </link>
 
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
     <!-- RIGHT WHEEL LINK -->
 
     <joint name="right_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="right_wheel"/>
-        <origin xyz="0 -0.175 0" rpy="${pi/2} 0 0"/>
+        <origin xyz="0 -0.175 0" rpy="${pi/2} 0 0" />
         <axis xyz="0 0 -1"/>
     </joint>
 
@@ -104,12 +113,18 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <!-- CASTER WHEEL LINK-->
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!-- CASTER WHEEL LINK -->
+
     <joint name="caster_wheel_joint" type="fixed">
         <parent link="chassis"/>
         <child link="caster_wheel"/>
         <origin xyz="0.24 0 0"/>
     </joint>
+
 
     <link name="caster_wheel">
         <visual>
@@ -127,5 +142,12 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_sphere>
     </link>
+    
+    <gazebo reference="caster_wheel">
+        <material>Gazebo/Black</material>
+        <mu1 value="0.001"/>
+        <mu2 value="0.001"/>
+    </gazebo>
 
+    
 </robot>
